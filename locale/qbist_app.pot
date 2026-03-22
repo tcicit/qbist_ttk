@@ -1,0 +1,400 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Dein Name / Deine Organisation
+# This file is distributed under the same license as the qbist_app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: qbist_app 1.3\n"
+"Report-Msgid-Bugs-To: deine-email@example.com\n"
+"POT-Creation-Date: 2025-05-31 11:37+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: qbist_app.py:87 qbist_app.py:301 qbist_app.py:800
+msgid "Exit"
+msgstr ""
+
+#: qbist_app.py:130
+#, python-brace-format
+msgid "Configuration file '{path}' not found. Using default values."
+msgstr ""
+
+#: qbist_app.py:132
+#, python-brace-format
+msgid "Error decoding '{path}'. Using default values."
+msgstr ""
+
+#: qbist_app.py:134
+#, python-brace-format
+msgid "Unexpected error loading configuration: {error}. Using default values."
+msgstr ""
+
+#: qbist_app.py:153
+#, python-brace-format
+msgid "Configuration saved to '{path}'."
+msgstr ""
+
+#: qbist_app.py:157
+msgid "Error Saving Configuration"
+msgstr ""
+
+#: qbist_app.py:157
+#, python-brace-format
+msgid "Could not save configuration: {error}"
+msgstr ""
+
+#: qbist_app.py:164
+#, python-brace-format
+msgid ""
+"About file '{path}' not found.\n"
+"\n"
+"Please create a file named 'about.md' in the program directory."
+msgstr ""
+
+#: qbist_app.py:166
+#, python-brace-format
+msgid "Error loading about file '{path}': {error}"
+msgstr ""
+
+#: qbist_app.py:171 qbist_app.py:771
+msgid "Python Qbist"
+msgstr ""
+
+#: qbist_app.py:202
+#, python-brace-format
+msgid "Could not load app icon 'logo.png': {error}"
+msgstr ""
+
+#: qbist_app.py:210 qbist_app.py:774
+msgid "Previews"
+msgstr ""
+
+#: qbist_app.py:263 qbist_app.py:778
+msgid "New Variations"
+msgstr ""
+
+#: qbist_app.py:265 qbist_app.py:779
+msgid "Undo"
+msgstr ""
+
+#: qbist_app.py:268 qbist_app.py:785
+msgid "Anti-aliasing (4x)"
+msgstr ""
+
+#: qbist_app.py:271 qbist_app.py:775
+msgid "File Operations"
+msgstr ""
+
+#: qbist_app.py:274 qbist_app.py:780
+msgid "Load Pattern (.qbe)"
+msgstr ""
+
+#: qbist_app.py:276 qbist_app.py:781
+msgid "Save Pattern (.qbe)"
+msgstr ""
+
+#: qbist_app.py:278 qbist_app.py:782
+msgid "Generate & Save Image..."
+msgstr ""
+
+#: qbist_app.py:281
+msgid "Welcome to Python Qbist!"
+msgstr ""
+
+#: qbist_app.py:298 qbist_app.py:798
+msgid "Set Default Image Size..."
+msgstr ""
+
+#: qbist_app.py:299 qbist_app.py:799
+msgid "Configure Output Directories..."
+msgstr ""
+
+#: qbist_app.py:302 qbist_app.py:792
+msgid "File"
+msgstr ""
+
+#: qbist_app.py:305 qbist_app.py:803
+msgid "Select Theme..."
+msgstr ""
+
+#: qbist_app.py:306 qbist_app.py:793
+msgid "View"
+msgstr ""
+
+#: qbist_app.py:310 qbist_app.py:794
+msgid "Language"
+msgstr ""
+
+#: qbist_app.py:314 qbist_app.py:806
+msgid "About Qbist..."
+msgstr ""
+
+#: qbist_app.py:315 qbist_app.py:795
+msgid "Help"
+msgstr ""
+
+#: qbist_app.py:322
+msgid "Processing, please wait..."
+msgstr ""
+
+#: qbist_app.py:331
+msgid "Ready."
+msgstr ""
+
+#: qbist_app.py:362
+msgid "Updating previews..."
+msgstr ""
+
+#: qbist_app.py:375
+msgid "Previews updated."
+msgstr ""
+
+#: qbist_app.py:401
+msgid "Undo successful."
+msgstr ""
+
+#: qbist_app.py:403
+msgid "Nothing to undo."
+msgstr ""
+
+#: qbist_app.py:409 qbist_app.py:429
+msgid "Qbist Pattern Files"
+msgstr ""
+
+#: qbist_app.py:409 qbist_app.py:429 qbist_app.py:652
+msgid "All Files"
+msgstr ""
+
+#: qbist_app.py:413
+#, python-brace-format
+msgid "Loading {filename}..."
+msgstr ""
+
+#: qbist_app.py:419
+#, python-brace-format
+msgid "Loaded: {filename}"
+msgstr ""
+
+#: qbist_app.py:421
+msgid "Load Error"
+msgstr ""
+
+#: qbist_app.py:421
+#, python-brace-format
+msgid "Could not load pattern from {path}"
+msgstr ""
+
+#: qbist_app.py:422
+msgid "Load failed."
+msgstr ""
+
+#: qbist_app.py:435
+#, python-brace-format
+msgid "Saved: {filename}"
+msgstr ""
+
+#: qbist_app.py:437
+msgid "Save Error"
+msgstr ""
+
+#: qbist_app.py:437
+#, python-brace-format
+msgid "Could not save pattern to {path}"
+msgstr ""
+
+#: qbist_app.py:438
+msgid "Save failed."
+msgstr ""
+
+#: qbist_app.py:456
+msgid "Select Directory"
+msgstr ""
+
+#: qbist_app.py:464
+msgid "Configure Output Directories"
+msgstr ""
+
+#: qbist_app.py:472
+msgid "Image Output Directory:"
+msgstr ""
+
+#: qbist_app.py:476 qbist_app.py:482
+msgid "Browse..."
+msgstr ""
+
+#: qbist_app.py:478
+msgid "Pattern Output Directory:"
+msgstr ""
+
+#: qbist_app.py:498
+msgid "Output directories configured."
+msgstr ""
+
+#: qbist_app.py:501 qbist_app.py:547
+msgid "Save"
+msgstr ""
+
+#: qbist_app.py:502 qbist_app.py:548 qbist_app.py:610 qbist_app.py:669
+msgid "Cancel"
+msgstr ""
+
+#: qbist_app.py:507
+msgid "Set Default Image Size"
+msgstr ""
+
+#: qbist_app.py:515
+msgid "Default Width:"
+msgstr ""
+
+#: qbist_app.py:519
+msgid "Default Height:"
+msgstr ""
+
+#: qbist_app.py:531 qbist_app.py:545 qbist_app.py:662
+msgid "Invalid Input"
+msgstr ""
+
+#: qbist_app.py:531
+msgid "Width and height must be positive numbers."
+msgstr ""
+
+#: qbist_app.py:542
+msgid "Default image size saved."
+msgstr ""
+
+#: qbist_app.py:545
+msgid "Width and height must be numbers."
+msgstr ""
+
+#: qbist_app.py:553
+msgid "Select Theme"
+msgstr ""
+
+#: qbist_app.py:564
+msgid "Available Themes:"
+msgstr ""
+
+#: qbist_app.py:578
+msgid "Theme Error"
+msgstr ""
+
+#: qbist_app.py:578
+#, python-brace-format
+msgid "Could not load theme '{theme}': {error}"
+msgstr ""
+
+#: qbist_app.py:596
+#, python-brace-format
+msgid "Theme '{theme}' saved."
+msgstr ""
+
+#: qbist_app.py:608
+msgid "Apply"
+msgstr ""
+
+#: qbist_app.py:609
+msgid "Save & Close"
+msgstr ""
+
+#: qbist_app.py:617
+msgid "Generate Image"
+msgstr ""
+
+#: qbist_app.py:637
+msgid "Invalid Dimensions"
+msgstr ""
+
+#: qbist_app.py:637
+msgid "Width and Height must be positive."
+msgstr ""
+
+#: qbist_app.py:650
+msgid "PNG Image"
+msgstr ""
+
+#: qbist_app.py:651
+msgid "JPEG Image"
+msgstr ""
+
+#: qbist_app.py:662
+msgid "Width and Height must be numbers."
+msgstr ""
+
+#: qbist_app.py:667 qbist_app.py:737
+msgid "OK"
+msgstr ""
+
+#: qbist_app.py:680
+#, python-brace-format
+msgid "Generating {w}x{h} image, please wait..."
+msgstr ""
+
+#: qbist_app.py:688
+#, python-brace-format
+msgid "Image saved: {filename}"
+msgstr ""
+
+#: qbist_app.py:690
+msgid "Image Generated"
+msgstr ""
+
+#: qbist_app.py:690
+#, python-brace-format
+msgid "Image saved as {path}"
+msgstr ""
+
+#: qbist_app.py:692
+msgid "Error during image generation."
+msgstr ""
+
+#: qbist_app.py:693
+msgid "Image Generation Error"
+msgstr ""
+
+#: qbist_app.py:693
+#, python-brace-format
+msgid "Failed to generate or save image: {error}"
+msgstr ""
+
+#: qbist_app.py:697
+msgid "About Python Qbist"
+msgstr ""
+
+#: qbist_app.py:822
+msgid "Language Load Warning"
+msgstr ""
+
+#: qbist_app.py:823
+#, python-brace-format
+msgid ""
+"Could not load all translations for {lang_name}. Some text may not be "
+"translated."
+msgstr ""
+
+#: qbist_app.py:832
+msgid "Language Error"
+msgstr ""
+
+#: qbist_app.py:833
+#, python-brace-format
+msgid "Failed to switch language: {error}"
+msgstr ""
+
+#: qbist_app.py:844
+#, python-brace-format
+msgid "Language changed to {lang_name}."
+msgstr ""
+
+#: qbist_app.py:854
+#, python-brace-format
+msgid ""
+"Error loading ttkbootstrap theme '{theme}'. Falling back to "
+"'{fallback_theme}'."
+msgstr ""

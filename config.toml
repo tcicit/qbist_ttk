@@ -1,0 +1,138 @@
+[paths]
+image_dir = "/home/tci/Dokumente/Entwicklung/Python/qbist_ttk/qbist_images"
+pattern_dir = "/home/tci/Dokumente/Entwicklung/Python/qbist_ttk/qbist_patterns"
+
+[ui]
+theme = "darkly"
+language = "en"
+
+[defaults]
+gen_preset = "16:9 (Widescreen)"
+gen_resolution_name = "4K (3840x2160)"
+image_width = 1024
+image_height = 1024
+
+[presets]
+[[presets."1:1 (Square)"]]
+name = "Small (512x512)"
+width = 512
+height = 512
+
+[[presets."1:1 (Square)"]]
+name = "Medium (1024x1024)"
+width = 1024
+height = 1024
+
+[[presets."1:1 (Square)"]]
+name = "Large (2048x2048)"
+width = 2048
+height = 2048
+
+[[presets."16:9 (Widescreen)"]]
+name = "HD (1280x720)"
+width = 1280
+height = 720
+
+[[presets."16:9 (Widescreen)"]]
+name = "Full HD (1920x1080)"
+width = 1920
+height = 1080
+
+[[presets."16:9 (Widescreen)"]]
+name = "4K (3840x2160)"
+width = 3840
+height = 2160
+
+[[presets."16:9 (Widescreen)"]]
+name = "8K (7680x4320)"
+width = 7680
+height = 4320
+
+[[presets."4:3 (Standard)"]]
+name = "SVGA (800x600)"
+width = 800
+height = 600
+
+[[presets."4:3 (Standard)"]]
+name = "XGA (1024x768)"
+width = 1024
+height = 768
+
+[[presets."4:3 (Standard)"]]
+name = "SXGA (1280x960)"
+width = 1280
+height = 960
+
+[[presets."4:3 (Standard)"]]
+name = "UXGA (1600x1200)"
+width = 1600
+height = 1200
+
+[[presets."4:3 (Standard)"]]
+name = "QXGA (2048x1536)"
+width = 2048
+height = 1536
+
+[[presets."4:3 (Standard)"]]
+name = "WQXGA (2560x1920)"
+width = 2560
+height = 1920
+
+[[presets."4:3 (Standard)"]]
+name = "4K (3840x2880)"
+width = 3840
+height = 2880
+
+[[presets."4:3 (Standard)"]]
+name = "8K (7680x5760)"
+width = 7680
+height = 5760
+
+[[presets."3:2 (Classic)"]]
+name = "HD (1280x853)"
+width = 1280
+height = 853
+supports_orientation_change = true
+
+[[presets."3:2 (Classic)"]]
+name = "Full HD (1920x1280)"
+width = 1920
+height = 1280
+supports_orientation_change = true
+
+[[presets."3:2 (Classic)"]]
+name = "4K (3840x2560)"
+width = 3840
+height = 2560
+supports_orientation_change = true
+
+[[presets."3:2 (Classic)"]]
+name = "8K (7680x5120)"
+width = 7680
+height = 5120
+supports_orientation_change = true
+
+[[presets."DIN A4"]]
+name = "Print (300 DPI)"
+width = 2480
+height = 3508
+supports_orientation_change = true
+
+[[presets."DIN A4"]]
+name = "Web (150 DPI)"
+width = 1240
+height = 1754
+supports_orientation_change = true
+
+[[presets."DIN A3"]]
+name = "Print (300 DPI)"
+width = 3508
+height = 4961
+supports_orientation_change = true
+
+[[presets."DIN A3"]]
+name = "Web (150 DPI)"
+width = 1754
+height = 2480
+supports_orientation_change = true
+
