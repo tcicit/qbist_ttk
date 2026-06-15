@@ -13,6 +13,7 @@ This program is based on an algorithm / article by Jörn Loviscach.
 It appeared in c't 10/95, page 326 and is called
 Ausgewürfelt - Moderne Kunst algorithmisch erzeugen"
 (~modern art created with algorithms).
+
 '''
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
@@ -58,7 +59,8 @@ class QbistApp:
         self.default_gen_image_height = initial_config.get("default_gen_image_height")
         self.current_theme_name = initial_config.get("theme")
         self.current_language_code = initial_config.get("language", DEFAULT_LANGUAGE)
-        self.image_presets = initial_config.get("image_presets") # Loaded from qbist_utilities defaults
+        # Ensure we always have a usable presets mapping
+        self.image_presets = initial_config.get("image_presets") or qbist_utilities.DEFAULT_IMAGE_PRESETS
         
         # Standardwerte für den Generierungsdialog aus der Konfiguration
         self.default_gen_preset_from_config = initial_config.get("default_gen_preset", DEFAULT_GEN_PRESET)
@@ -103,8 +105,22 @@ class QbistApp:
 
     def _get_dimensions_for_preset(self, preset_key, resolution_name, orientation):
         """Ermittelt Breite und Höhe für ein gegebenes Preset, Auflösung und Ausrichtung."""
-        if preset_key and resolution_name and preset_key in self.image_presets:
+        if not preset_key or not resolution_name:
+            return None, None
+
+        # Direct lookup first
+        preset_details_list = None
+        if preset_key in self.image_presets:
             preset_details_list = self.image_presets[preset_key]
+        else:
+            # Try a case-insensitive/whitespace-insensitive match for robustness
+            lookup = preset_key.strip().lower()
+            for k in self.image_presets.keys():
+                if str(k).strip().lower() == lookup:
+                    preset_details_list = self.image_presets[k]
+                    break
+
+        if preset_details_list:
             for res_detail in preset_details_list:
                 if res_detail["name"] == resolution_name:
                     base_w, base_h = res_detail["width"], res_detail["height"]
@@ -162,7 +178,6 @@ class QbistApp:
 
     def _update_all_previews(self):
         self.status_label.config(text=_(qbist_ui_components.UI_STATUS_UPDATING_PREVIEWS))
-        self.master.update_idletasks()
 
         center_canvas = self.preview_canvases[4]
         center_size = int(self.preview_render_size * 1.25)
@@ -358,6 +373,7 @@ class QbistApp:
                 messagebox.showerror(_("Invalid Input"), _("Width and height must be numbers."), parent=dialog)
 
         qbist_ui_components.populate_default_image_size_dialog_widgets(self, frame, default_gen_preset_var, default_gen_resolution_var,
+            width_var=width_var, height_var=height_var,
             save_command=on_save_size_config,
             cancel_command=dialog.destroy
         )
@@ -485,11 +501,10 @@ class QbistApp:
             self.master.after(0, lambda: self._enable_ui_after_long_op(_("Error during image generation.")))
             self.master.after(0, lambda: messagebox.showerror(_("Bildgenerierungsfehler"), _("Fehler beim Generieren oder Speichern des Bildes: {error}").format(error=e), parent=self.master)) # UI_DIALOG_TITLE_IMAGE_GENERATION_ERROR, UI_MSG_IMAGE_GENERATION_ERROR
 
-    def _generate_full_image(self):
+    def _generate_full_image(self, event=None):
         dialog = tk.Toplevel(self.master)
         dialog.title(_(qbist_ui_components.UI_DIALOG_TITLE_GENERATE_IMAGE))
         dialog.transient(self.master) # Keep dialog on top of main window
-        dialog.grab_set() # Modal
         dialog.resizable(False, False)
 
         dialog_frame = ttk.Frame(dialog, padding="10") # Use a frame for consistent padding
@@ -550,6 +565,16 @@ class QbistApp:
             ok_command=on_ok,
             cancel_command=on_cancel
         )
+        
+        # Erzwinge ein Update der Anzeige, bevor die initiale Befüllung startet
+        dialog.update_idletasks()
+        
+        # Sicherstellen, dass das Fenster sichtbar ist, bevor der modale Fokus gesetzt wird
+        dialog.wait_visibility()
+        dialog.grab_set()
+
+        # Initialisiere die Werte (dies ruft die Logik in qbist_ui_components auf)
+        
         dialog.wait_window() # Wait for dialog to close
 
         if not result["filepath"]:
@@ -639,6 +664,7 @@ class QbistApp:
 
 if __name__ == '__main__':
     initial_config = load_config()
+
     # _ is now available globally from qbist_utilities
     current_theme_name = initial_config.get("theme", DEFAULT_THEME)
     

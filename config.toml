@@ -1,5 +1,5 @@
 [paths]
-image_dir = "/home/tci/Dokumente/Entwicklung/Python/qbist_ttk/qbist_images"
+image_dir = "/home/tci/Dokumente/Entwicklung/Python/art/qbist_ttk/qbist_images"
 pattern_dir = "/home/tci/Dokumente/Entwicklung/Python/qbist_ttk/qbist_patterns"
 
 [ui]
@@ -9,8 +9,8 @@ language = "en"
 [defaults]
 gen_preset = "16:9 (Widescreen)"
 gen_resolution_name = "4K (3840x2160)"
-image_width = 1024
-image_height = 1024
+image_width = 3840
+image_height = 2160
 
 [presets]
 [[presets."1:1 (Square)"]]
@@ -27,6 +27,11 @@ height = 1024
 name = "Large (2048x2048)"
 width = 2048
 height = 2048
+
+[[presets."1:1 (Square)"]]
+name = "xLarge (4096x4096)"
+width = 4096
+height = 4096
 
 [[presets."16:9 (Widescreen)"]]
 name = "HD (1280x720)"
@@ -88,6 +93,11 @@ name = "8K (7680x5760)"
 width = 7680
 height = 5760
 
+[[presets."4:3 (Standard)"]]
+name = "Altes TV (640x480)"
+width = 640
+height = 480
+
 [[presets."3:2 (Classic)"]]
 name = "HD (1280x853)"
 width = 1280
@@ -136,3 +146,7 @@ width = 1754
 height = 2480
 supports_orientation_change = true
 
+[[presets."Social Media"]]
+name = "Instagram Post (1080x1080)"
+width = 1080
+height = 1080

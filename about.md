@@ -1,14 +1,16 @@
-# Über Python Qbist
+# About Python Qbist
 
-Version 1.0 (basierend auf dem GIMP Plugin)
-Lizenz: GPL3
+Version 1.1 (based on the GIMP plugin)
+License: GPL3
 
-Diese Anwendung ermöglicht die Erstellung und Manipulation von Qbist-Mustern.
-Sie wurde von dem ursprünglichen C-Code des Qbist-Plugins für GIMP portiert.
+This application allows you to create and manipulate Qbist patterns.
+It was ported from the original C code of the Qbist plugin for GIMP.
 https://github.com/GNOME/gimp/blob/master/plug-ins/common/qbist.c
 
-**Entwickler:** Thomas Cigolla
-**Original-Algorithmus:** Jörn Loviscach (c't 10/95)
-**Portierung des Algoritmus und GUI Entwicklung:** mit Hilfe von Gemini AI
+**Developer:** Thomas Cigolla
+**Original algorithm:** Jörn Loviscach (c't 10/95)
+**Algorithm porting and GUI development:** with the help of Gemini AI
 
-Viel Spass beim Experimentieren!
+Have fun experimenting!
+
+Translated with DeepL.com (free version)

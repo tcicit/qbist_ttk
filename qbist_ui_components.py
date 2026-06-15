@@ -5,11 +5,10 @@ import ttkbootstrap as tb
 from ttkbootstrap.tooltip import ToolTip
 import re
 import os # For _get_available_languages
-
-# This module assumes qbist_utilities has been imported and lang.install() called,
-# making _ globally available.
+from qbist_utilities import _
 
 # --- UI String Constants (Source for _() function) ---
+# These are keys for translation
 UI_APP_TITLE = "Python Qbist"
 UI_LBL_PREVIEWS = "Previews"
 UI_BTN_NEW_VARIATIONS = "New Variations"
@@ -128,7 +127,8 @@ UI_TOOLTIP_GENERATE_SAVE_IMAGE = "Generate a full-size image from the current ma
 UI_TOOLTIP_PREVIEW_CANVAS = "Click to select this pattern as the main pattern."
 UI_TOOLTIP_CENTER_CANVAS = "Click to generate new variations from this main pattern."
 
-PREVIEW_SIZE_DEFAULT = 128
+#PREVIEW_SIZE_DEFAULT = 128
+PREVIEW_SIZE_DEFAULT = 256
 
 def create_main_layout(app, master_tk_instance):
     master_tk_instance.title(_(UI_APP_TITLE))
@@ -168,6 +168,8 @@ def create_main_layout(app, master_tk_instance):
         canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         if is_center:
             canvas.bind("<Button-1>", lambda e: app._on_center_preview_click())
+            canvas.bind("<Button-3>", lambda e: app._generate_full_image())
+            canvas.bind("<Button-2>", lambda e: app._generate_full_image()) # For macOS
         else:
             canvas.bind("<Button-1>", lambda e, gui_idx=i: app._on_variation_preview_click(gui_idx))
         app.preview_canvases.append(canvas)
@@ -246,20 +248,40 @@ def populate_default_image_size_dialog_widgets(
     app,  # Benötigt für den Zugriff auf app.image_presets
     parent_frame,
     default_gen_preset_var, default_gen_resolution_var,  # Neue StringVars
+    width_var, height_var,  # StringVars für manuelle Breite/Höhe
     save_command, cancel_command
 ):
     # Standard-Generierungs-Preset
-    ttk.Label(parent_frame, text=_(UI_LBL_DEFAULT_GEN_PRESET)).grid(row=0, column=0, padx=5, pady=5, sticky=tk.W) # Start at row 0
+    ttk.Label(parent_frame, text=_(UI_LBL_DEFAULT_GEN_PRESET)).grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
     preset_combo = ttk.Combobox(parent_frame, textvariable=default_gen_preset_var, state="readonly", width=30)
     preset_combo.grid(row=0, column=1, padx=5, pady=5, sticky=tk.EW)
     preset_combo['values'] = [""] + list(app.image_presets.keys())  # Leere Option hinzufügen
 
     # Standard-Generierungs-Auflösung
-    ttk.Label(parent_frame, text=_(UI_LBL_DEFAULT_GEN_RESOLUTION)).grid(row=1, column=0, padx=5, pady=5, sticky=tk.W) # Now row 1
+    ttk.Label(parent_frame, text=_(UI_LBL_DEFAULT_GEN_RESOLUTION)).grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
     resolution_combo = ttk.Combobox(parent_frame, textvariable=default_gen_resolution_var, state="readonly", width=30)
     resolution_combo.grid(row=1, column=1, padx=5, pady=5, sticky=tk.EW)
 
+    # Trennlinie zwischen Preset und manueller Eingabe
+    ttk.Separator(parent_frame, orient=tk.HORIZONTAL).grid(row=2, column=0, columnspan=2, sticky=tk.EW, pady=5)
+    ttk.Label(parent_frame, text=_(UI_LBL_WIDTH)).grid(row=3, column=0, padx=5, pady=5, sticky=tk.W)
+    width_entry = ttk.Entry(parent_frame, textvariable=width_var, width=12)
+    width_entry.grid(row=3, column=1, padx=5, pady=5, sticky=tk.W)
+    ttk.Label(parent_frame, text=_(UI_LBL_HEIGHT)).grid(row=4, column=0, padx=5, pady=5, sticky=tk.W)
+    height_entry = ttk.Entry(parent_frame, textvariable=height_var, width=12)
+    height_entry.grid(row=4, column=1, padx=5, pady=5, sticky=tk.W)
+
     parent_frame.columnconfigure(1, weight=1) # Erlaube Comboboxen sich auszudehnen
+
+    def _update_size_from_preset():
+        selected_key = default_gen_preset_var.get()
+        selected_res = default_gen_resolution_var.get()
+        if selected_key and selected_res:
+            for res_detail in app.image_presets.get(selected_key, []):
+                if res_detail["name"] == selected_res:
+                    width_var.set(str(res_detail["width"]))
+                    height_var.set(str(res_detail["height"]))
+                    return
 
     def _on_default_gen_preset_selected(event=None):
         selected_key = default_gen_preset_var.get()
@@ -273,17 +295,22 @@ def populate_default_image_size_dialog_widgets(
             if current_res_val and current_res_val in resolution_names:
                 pass  # Aktuelle Auflösung beibehalten, wenn gültig
             elif resolution_names:
-                default_gen_resolution_var.set(resolution_names[0]) # Erste verfügbare Auflösung wählen
+                default_gen_resolution_var.set(resolution_names[0])  # Erste verfügbare Auflösung wählen
             else:
-                default_gen_resolution_var.set("") # Keine Auflösungen für dieses Preset
+                default_gen_resolution_var.set("")  # Keine Auflösungen für dieses Preset
         else:  # Kein Preset ausgewählt
             default_gen_resolution_var.set("")
+        _update_size_from_preset()
+
+    def _on_default_gen_resolution_selected(event=None):
+        _update_size_from_preset()
 
     preset_combo.bind("<<ComboboxSelected>>", _on_default_gen_preset_selected)
-    _on_default_gen_preset_selected() # Initiale Befüllung der Auflösungs-Combobox
+    resolution_combo.bind("<<ComboboxSelected>>", _on_default_gen_resolution_selected)
+    _on_default_gen_preset_selected()  # Initiale Befüllung der Auflösungs-Combobox
 
     button_frame = ttk.Frame(parent_frame)
-    button_frame.grid(row=2, column=0, columnspan=2, pady=10)  # Zeile angepasst (was row 4)
+    button_frame.grid(row=5, column=0, columnspan=2, pady=10)
     ttk.Button(button_frame, text=_(UI_BTN_SAVE), command=save_command).pack(side=tk.LEFT, padx=5)
     ttk.Button(button_frame, text=_(UI_BTN_CANCEL), command=cancel_command).pack(side=tk.LEFT, padx=5)
 
@@ -298,6 +325,7 @@ def populate_theme_dialog_widgets(parent_frame, theme_var, available_themes, app
     ttk.Button(button_frame, text=_(UI_BTN_CANCEL), command=cancel_command).pack(side=tk.LEFT, padx=5)
 
 def populate_generate_image_dialog_widgets(app, parent_dialog_frame, preset_var, resolution_var, orientation_var, width_var, height_var, ok_command, cancel_command):
+    # 1. Widgets erstellen und platzieren
     ttk.Label(parent_dialog_frame, text=_(UI_LBL_PRESET)).grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
     preset_combo = ttk.Combobox(parent_dialog_frame, textvariable=preset_var, state="readonly", width=25)
     preset_combo.grid(row=0, column=1, columnspan=2, padx=5, pady=5, sticky=tk.EW)
@@ -320,7 +348,13 @@ def populate_generate_image_dialog_widgets(app, parent_dialog_frame, preset_var,
     height_entry = ttk.Entry(parent_dialog_frame, textvariable=height_var, width=10)
     height_entry.grid(row=4, column=1, padx=5, pady=5, sticky=tk.W)
     parent_dialog_frame.columnconfigure(1, weight=1)
+    
+    ok_button = ttk.Button(parent_dialog_frame, text=_(UI_BTN_SAVE_AND_GENERATE_ACTION), command=ok_command)
+    ok_button.grid(row=5, column=0, padx=5, pady=10, sticky=tk.W)
+    cancel_button = ttk.Button(parent_dialog_frame, text=_(UI_BTN_CANCEL), command=cancel_command)
+    cancel_button.grid(row=5, column=1, padx=5, pady=10, sticky=tk.E)
 
+    # 2. Logik-Funktionen definieren
     def _update_dimensions_from_preset():
         selected_preset_key = preset_var.get()
         selected_resolution_name = resolution_var.get()
@@ -341,7 +375,6 @@ def populate_generate_image_dialog_widgets(app, parent_dialog_frame, preset_var,
     def _on_preset_selected(event=None):
         selected_key = preset_var.get()
         resolution_combo['values'] = []
-        resolution_var.set("")
         orientation_supported = False
         if selected_key:
             resolutions = app.image_presets.get(selected_key, [])
@@ -362,18 +395,16 @@ def populate_generate_image_dialog_widgets(app, parent_dialog_frame, preset_var,
         for widget in orientation_frame.winfo_children(): widget.config(state=tk.DISABLED)
         orientation_var.set("P")
 
+    # 3. Ereignisse binden
     preset_combo.bind("<<ComboboxSelected>>", _on_preset_selected)
     resolution_combo.bind("<<ComboboxSelected>>", _on_resolution_selected)
-    portrait_rb.config(command=_update_dimensions_from_preset) # Use common update
-    landscape_rb.config(command=_update_dimensions_from_preset) # Use common update
+    portrait_rb.config(command=_update_dimensions_from_preset)
+    landscape_rb.config(command=_update_dimensions_from_preset)
     width_entry.bind("<KeyRelease>", _on_manual_dimension_input)
     height_entry.bind("<KeyRelease>", _on_manual_dimension_input)
-    _on_preset_selected()
 
-    ok_button = ttk.Button(parent_dialog_frame, text=_(UI_BTN_SAVE_AND_GENERATE_ACTION), command=ok_command)
-    ok_button.grid(row=5, column=0, padx=5, pady=10, sticky=tk.W)
-    cancel_button = ttk.Button(parent_dialog_frame, text=_(UI_BTN_CANCEL), command=cancel_command)
-    cancel_button.grid(row=5, column=1, padx=5, pady=10, sticky=tk.E)
+    # Initialisiere die Anzeige mit den aktuellen Werten
+    _on_preset_selected()
     
 def populate_about_dialog_content(text_area_widget, about_content_markdown):
     try:

@@ -23,19 +23,27 @@ DEFAULT_IMAGE_PRESETS = {
         {"name": "Small (512x512)", "width": 512, "height": 512},
         {"name": "Medium (1024x1024)", "width": 1024, "height": 1024},
         {"name": "Large (2048x2048)", "width": 2048, "height": 2048},
+        {"name": "4K (4096x4096)", "width": 4096, "height": 4096},
+        {"name": "8K (8192x8192)", "width": 8192, "height": 8192},  
     ],
     "16:9 (Widescreen)": [
         {"name": "HD (1280x720)", "width": 1280, "height": 720},
         {"name": "Full HD (1920x1080)", "width": 1920, "height": 1080},
         {"name": "4K (3840x2160)", "width": 3840, "height": 2160},
+        {"name": "8K (7680x4320)", "width": 7680, "height": 4320},
     ],
     "4:3 (Standard)": [
         {"name": "SVGA (800x600)", "width": 800, "height": 600},
         {"name": "XGA (1024x768)", "width": 1024, "height": 768},
+        {"name": "SXGA (1280x1024)", "width": 1280, "height": 1024},
+        {"name": "UXGA (1600x1200)", "width": 1600, "height": 1200},
+        {"name": "WXGA (1920x1200)", "width": 1920, "height": 1200},
+
     ],
     "DIN A4": [
         {"name": "Print (300 DPI)", "width": 2480, "height": 3508, "supports_orientation_change": True},
         {"name": "Web (150 DPI)", "width": 1240, "height": 1754, "supports_orientation_change": True},
+
     ],
     "DIN A3": [
         {"name": "Print (300 DPI)", "width": 3508, "height": 4961, "supports_orientation_change": True},
@@ -92,6 +100,27 @@ def load_config():
         print(f"ERROR: Unexpected error loading configuration from '{CONFIG_FILE_PATH}': {e}. Using default values.")
         # config remains {}
 
+    # Normalize presets into a mapping of preset_name -> list of resolution dicts
+    raw_presets = config.get('presets', DEFAULT_IMAGE_PRESETS)
+    normalized_presets = {}
+    try:
+        if isinstance(raw_presets, dict):
+            for key, val in raw_presets.items():
+                # Ensure key is a string and value is a list of dicts
+                preset_key = str(key)
+                if isinstance(val, list):
+                    normalized_presets[preset_key] = val
+                elif isinstance(val, dict):
+                    normalized_presets[preset_key] = [val]
+                else:
+                    # Unknown structure: skip
+                    continue
+        else:
+            # If the structure is unexpected (e.g. a list), fall back to defaults
+            normalized_presets = DEFAULT_IMAGE_PRESETS
+    except Exception:
+        normalized_presets = DEFAULT_IMAGE_PRESETS
+
     return {
         "image_dir": config.get('paths', {}).get('image_dir', DEFAULT_IMAGE_DIR),
         "pattern_dir": config.get('paths', {}).get('pattern_dir', DEFAULT_PATTERN_DIR),
@@ -99,7 +128,7 @@ def load_config():
         "default_gen_image_height": config.get('defaults', {}).get('image_height', DEFAULT_GEN_IMAGE_HEIGHT),
         "theme": config.get('ui', {}).get('theme', DEFAULT_THEME),
         "language": config.get('ui', {}).get('language', get_configured_language() or DEFAULT_LANGUAGE),
-        "image_presets": config.get('presets', DEFAULT_IMAGE_PRESETS), # Key 'presets' statt 'image_presets' verwenden
+        "image_presets": normalized_presets,
         "default_gen_preset": config.get('defaults', {}).get('gen_preset', DEFAULT_GEN_PRESET),
         "default_gen_resolution_name": config.get('defaults', {}).get('gen_resolution_name', DEFAULT_GEN_RESOLUTION_NAME),
     }
